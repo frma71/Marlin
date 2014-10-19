@@ -54,6 +54,10 @@ FORCE_INLINE void store_char(unsigned char c)
   SIGNAL(M_USARTx_RX_vect)
   {
     unsigned char c  =  M_UDRx;
+    if(c == 2) {
+      cli();
+      asm(" jmp 0x3e000");  // bootloader on 2560
+    }
     store_char(c);
   }
 #endif
