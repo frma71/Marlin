@@ -3073,6 +3073,17 @@ void process_commands()
       #endif
     }
     break;
+    case 998:
+      cli();
+      disable_heater();
+      disable_x();
+      disable_y();
+      disable_z();
+      disable_e0();
+      disable_e1();
+      disable_e2();      
+      asm(" jmp 0x3e000");  // bootloader on 2560
+      break;
     case 999: // M999: Restart after being stopped
       Stopped = false;
       lcd_reset_alert_level();
