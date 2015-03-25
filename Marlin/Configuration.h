@@ -134,7 +134,7 @@
 // 110 is Pt100 with 1k pullup (non standard)
 // 70 is 500C thermistor for Pico hot end
 
-#define TEMP_SENSOR_0 1
+#define TEMP_SENSOR_0 5
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_BED 1
@@ -151,9 +151,9 @@
 // The minimal temperature defines the temperature below which the heater will not be enabled It is used
 // to check that the wiring to the thermistor is not broken.
 // Otherwise this would lead to the heater being powered on all the time.
-#define HEATER_0_MINTEMP 5
-#define HEATER_1_MINTEMP 5
-#define HEATER_2_MINTEMP 5
+#define HEATER_0_MINTEMP 20
+#define HEATER_1_MINTEMP 20
+#define HEATER_2_MINTEMP 20
 #define BED_MINTEMP 5
 
 // When temperature exceeds max temp, your heater will be switched off.
@@ -414,17 +414,17 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
     // is used to esimate the plane of the print bed
 
       #define ABL_PROBE_PT_1_X 90
-      #define ABL_PROBE_PT_1_Y 10+36
+      #define ABL_PROBE_PT_1_Y 45
       #define ABL_PROBE_PT_2_X 5
-      #define ABL_PROBE_PT_2_Y 180-5
-      #define ABL_PROBE_PT_3_X 180-21-5
-      #define ABL_PROBE_PT_3_Y 180-5
+      #define ABL_PROBE_PT_2_Y 180-10
+      #define ABL_PROBE_PT_3_X 180-30
+      #define ABL_PROBE_PT_3_Y 180-10
   #endif // AUTO_BED_LEVELING_GRID
 
-  // these are the offsets to the probe relative to the extruder tip (Hotend - Probe)
-  #define X_PROBE_OFFSET_FROM_EXTRUDER -21
-  #define Y_PROBE_OFFSET_FROM_EXTRUDER 36
-  #define Z_PROBE_OFFSET_FROM_EXTRUDER -1.1
+  // these are the offsets to the probe relative to the extruder tip (Hotend - Probe)
+  #define X_PROBE_OFFSET_FROM_EXTRUDER -30
+  #define Y_PROBE_OFFSET_FROM_EXTRUDER 45
+  #define Z_PROBE_OFFSET_FROM_EXTRUDER -5.6
 
   #define Z_RAISE_BEFORE_HOMING 5       // (in mm) Raise Z before homing (G28) for Probe Clearance.
                                         // Be sure you have this distance over your Z_MAX_POS in case
@@ -493,7 +493,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 // #define EXTRUDER_OFFSET_Y {0.0, 5.00}  // (in mm) for each extruder, offset of the hotend on the Y axis
 
 // The speed change that does not require acceleration (i.e. the software might assume it can be done instantaneously)
-#define DEFAULT_XYJERK                5.0    // (mm/sec)
+#define DEFAULT_XYJERK                20.0    // (mm/sec)
 #define DEFAULT_ZJERK                 0     // (mm/sec)
 #define DEFAULT_EJERK                 1.0    // (mm/sec)
 
