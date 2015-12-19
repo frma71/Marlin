@@ -219,7 +219,7 @@
  * M100 - Watch Free Memory (For Debugging Only)
  * M851 - Set Z probe's Z offset (mm above extruder -- The value will always be negative)
 
-
+ * M942 - Set or get hacking flags
  * M928 - Start SD logging (M928 filename.g) - ended by M29
  * M999 - Restart after being stopped by error
  *
@@ -265,6 +265,11 @@ float volumetric_multiplier[EXTRUDERS] = ARRAY_BY_EXTRUDERS1(1.0);
 float home_offset[3] = { 0 };
 float min_pos[3] = { X_MIN_POS, Y_MIN_POS, Z_MIN_POS };
 float max_pos[3] = { X_MAX_POS, Y_MAX_POS, Z_MAX_POS };
+
+
+#if ENABLED(ENABLE_HACKING_FLAGS)
+long hacking_flags = 0;
+#endif
 
 uint8_t active_extruder = 0;
 int fanSpeed = 0;
@@ -3504,6 +3509,18 @@ inline void gcode_M31() {
 
 #endif // SDSUPPORT
 
+#if ENABLED(ENABLE_HACKING_FLAGS)
+/**
+ * M942: Set hacking mode
+ */
+inline void gcode_M928() {
+  if (code_seen('P'))
+    hacking_flags = code_value_long();
+  else
+    SERIAL_ECHOPAIR("flags: ", hacking_flags);
+}
+#endif
+
 /**
  * M42: Change pin status via GCode
  */
@@ -5818,7 +5835,10 @@ void process_next_command() {
           case 33: //M33 - Get the long full path to a file or folder
             gcode_M33(); break;
         #endif // LONG_FILENAME_HOST_SUPPORT
-
+        #if ENABLED(ENABLE_HACKING_FLAGS)
+        case 942: //M942 - Set hacking mode
+          gcode_M942(); break;
+        #endif
         case 928: //M928 - Start SD write
           gcode_M928(); break;
 
@@ -6893,7 +6913,8 @@ void disable_all_steppers() {
  * Standard idle routine keeps the machine alive
  */
 void idle() {
-  manage_heater();
+  if(!(hacking_flags & HACKING_FLAGS_HEATER_DISABLE))
+    manage_heater();
   manage_inactivity();
   lcd_update();
 }

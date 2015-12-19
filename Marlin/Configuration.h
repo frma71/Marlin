@@ -856,4 +856,6 @@ const bool Z_MIN_PROBE_ENDSTOP_INVERTING = true; // set to true to invert the lo
 #include "Configuration_adv.h"
 #include "thermistortables.h"
 
+#define ENABLE_HACKING_FLAGS
+
 #endif //CONFIGURATION_H

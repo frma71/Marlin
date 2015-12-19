@@ -351,6 +351,13 @@ extern uint8_t active_extruder;
   extern void digipot_i2c_init();
 #endif
 
+  #define HACKING_FLAG_HEATER_DISABLE (1L << 0)
+#if ENABLED(ENABLE_HACKING_FLAGS)
+  extern long hacking_flags;
+#else
+  #define hacking_flags 0
+#endif
+
 extern void calculate_volumetric_multipliers();
 
 #endif //MARLIN_H
