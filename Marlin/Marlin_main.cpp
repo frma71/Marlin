@@ -3513,8 +3513,8 @@ inline void gcode_M31() {
 /**
  * M942: Set hacking mode
  */
-inline void gcode_M928() {
-  if (code_seen('P'))
+inline void gcode_M942() {
+  if (code_seen('S'))
     hacking_flags = code_value_long();
   else
     SERIAL_ECHOPAIR("flags: ", hacking_flags);
@@ -5835,14 +5835,14 @@ void process_next_command() {
           case 33: //M33 - Get the long full path to a file or folder
             gcode_M33(); break;
         #endif // LONG_FILENAME_HOST_SUPPORT
-        #if ENABLED(ENABLE_HACKING_FLAGS)
-        case 942: //M942 - Set hacking mode
-          gcode_M942(); break;
-        #endif
         case 928: //M928 - Start SD write
           gcode_M928(); break;
 
       #endif //SDSUPPORT
+      #if ENABLED(ENABLE_HACKING_FLAGS)
+      case 942: //M942 - Set hacking mode
+        gcode_M942(); break;
+      #endif
 
       case 31: //M31 take time since the start of the SD print or an M109 command
         gcode_M31();
@@ -6913,8 +6913,7 @@ void disable_all_steppers() {
  * Standard idle routine keeps the machine alive
  */
 void idle() {
-  if(!(hacking_flags & HACKING_FLAGS_HEATER_DISABLE))
-    manage_heater();
+  manage_heater();
   manage_inactivity();
   lcd_update();
 }

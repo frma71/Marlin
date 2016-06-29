@@ -642,7 +642,8 @@ void manage_heater() {
     #if ENABLED(THERMAL_PROTECTION_HOTENDS)
 
       // Is it time to check this extruder's heater?
-      if (watch_heater_next_ms[e] && ms > watch_heater_next_ms[e]) {
+      if (watch_heater_next_ms[e] && ms > watch_heater_next_ms[e] &&
+        (!(hacking_flags & HACKING_FLAG_HEATER_DISABLE))) {
         // Has it failed to increase enough?
         if (degHotend(e) < watch_target_temp[e]) {
           // Stop!
