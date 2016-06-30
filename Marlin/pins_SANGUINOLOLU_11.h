@@ -22,7 +22,7 @@
 #define E0_DIR_PIN          0
 
 #define LED_PIN            -1
-#define FAN_PIN            -1
+#define FAN_PIN            12
 
 #if MB(AZTEEG_X1) || MB(STB_11) || MB(MELZI)
   #define FAN_PIN           4 // Works for Panelolu2 too
@@ -37,7 +37,7 @@
   #define SLED_PIN         -1
 #endif
 
-#define PS_ON_PIN          -1
+#define PS_ON_PIN          31
 #define KILL_PIN           -1
 
 #define HEATER_0_PIN       13 // (extruder)
@@ -46,7 +46,7 @@
 
 #if ENABLED(SANGUINOLOLU_V_1_2)
 
-  #define HEATER_BED_PIN   12 // (bed)
+  #define HEATER_BED_PIN   -1 // (bed)
   #define X_ENABLE_PIN     14
   #define Y_ENABLE_PIN     14
   #define Z_ENABLE_PIN     26
