@@ -37,21 +37,21 @@
 # from the commandline with "make HARDWARE_MOTHERBOARD=71" for example
 
 # This defined the board you are compiling for (see boards.h for the options)
-HARDWARE_MOTHERBOARD ?= 11
+HARDWARE_MOTHERBOARD ?= 62
 
 # Arduino source install directory, and version number
 # On most linuxes this will be /usr/share/arduino
-ARDUINO_INSTALL_DIR  ?= /usr/share/arduino
-ARDUINO_VERSION      ?= 105
+ARDUINO_INSTALL_DIR  ?= ~/tmp/arduino-1.0.1/
+ARDUINO_VERSION      ?= 101
 
 # You can optionally set a path to the avr-gcc tools. Requires a trailing slash. (ex: /usr/local/avr-gcc/bin)
 AVR_TOOLS_PATH ?=
 
 #Programmer configuration
-UPLOAD_RATE        ?= 115200
-AVRDUDE_PROGRAMMER ?= wiring
+UPLOAD_RATE        ?= 57600
+AVRDUDE_PROGRAMMER ?= arduino
 # on most linuxes this will be /dev/ttyACM0 or /dev/ttyACM1 
-UPLOAD_PORT        ?= /dev/arduino
+UPLOAD_PORT        ?= /dev/ttyUSB0
 
 #Directory used to build files in, contains all the build files, from object files to the final hex file
 #on linux it is best to put an absolute path like /home/username/tmp .
@@ -137,7 +137,7 @@ HARDWARE_VARIANT ?= Sanguino
 MCU              ?= atmega644p
 else ifeq  ($(HARDWARE_MOTHERBOARD),62)
 HARDWARE_VARIANT ?= Sanguino
-MCU              ?= atmega644p
+MCU              ?= atmega1284p
 else ifeq  ($(HARDWARE_MOTHERBOARD),63)
 HARDWARE_VARIANT ?= Sanguino
 MCU              ?= atmega644p
@@ -226,12 +226,12 @@ ifeq ($(HARDWARE_VARIANT), arduino)
 HARDWARE_DIR = $(ARDUINO_INSTALL_DIR)/hardware
 else
 ifeq ($(shell [ $(ARDUINO_VERSION) -ge 100 ] && echo true), true)
-HARDWARE_DIR = ../ArduinoAddons/Arduino_1.x.x
+HARDWARE_DIR = ../ArduinoAddons/Arduino_1.0.x
 else
 HARDWARE_DIR = ../ArduinoAddons/Arduino_0.xx
 endif
 endif
-HARDWARE_SRC = $(HARDWARE_DIR)/$(HARDWARE_VARIANT)/cores/arduino
+HARDWARE_SRC = $(HARDWARE_DIR)/hardware/$(HARDWARE_VARIANT)/cores/arduino
 
 TARGET = $(notdir $(CURDIR))
 
@@ -272,7 +272,7 @@ HARDWARE_SUB_VARIANT ?= mega
 VPATH += $(ARDUINO_INSTALL_DIR)/hardware/arduino/variants/$(HARDWARE_SUB_VARIANT)
 else
 HARDWARE_SUB_VARIANT ?= standard
-VPATH += $(HARDWARE_DIR)/$(HARDWARE_VARIANT)/variants/$(HARDWARE_SUB_VARIANT)
+VPATH += $(HARDWARE_DIR)/hardware/$(HARDWARE_VARIANT)/variants/$(HARDWARE_SUB_VARIANT)
 endif
 SRC = wiring.c \
 	wiring_analog.c wiring_digital.c \
@@ -329,7 +329,7 @@ OBJDUMP = $(AVR_TOOLS_PATH)avr-objdump
 AR  = $(AVR_TOOLS_PATH)avr-ar
 SIZE = $(AVR_TOOLS_PATH)avr-size
 NM = $(AVR_TOOLS_PATH)avr-nm
-AVRDUDE = avrdude
+AVRDUDE = /usr/share/arduino/hardware/tools/avrdude
 REMOVE = rm -f
 MV = mv -f
 
@@ -344,6 +344,7 @@ CXXSRC += usb_api.cpp
 endif
 
 # Add all the source directories as include directories too
+
 CINCS = ${addprefix -I ,${VPATH}}
 CXXINCS = ${addprefix -I ,${VPATH}}
 
@@ -374,7 +375,7 @@ LDFLAGS = -lm
 AVRDUDE_PORT = $(UPLOAD_PORT)
 AVRDUDE_WRITE_FLASH = -Uflash:w:$(BUILD_DIR)/$(TARGET).hex:i
 ifeq ($(shell uname -s), Linux)
-AVRDUDE_CONF = /etc/avrdude/avrdude.conf
+AVRDUDE_CONF = /usr/share/arduino/hardware/tools/avrdude.conf
 else
 AVRDUDE_CONF = $(ARDUINO_INSTALL_DIR)/hardware/tools/avr/etc/avrdude.conf
 endif
