@@ -69,8 +69,9 @@ Here are some standard links for getting your machine calibrated:
 
 // The following define selects which electronics board you have.
 // Please choose the name from boards.h that matches your setup
-#ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_SANGUINOLOLU_12
+#ifndef MOTHER
+//  #define MOTHERBOARD BOARD_SANGUINOLOLU_12
+    #define MOTHERBOARD BOARD_RAMPS_14_EFB
 #endif
 
 // Optional custom name for your RepStrap or other custom machine
@@ -583,7 +584,7 @@ const bool Z_MIN_PROBE_ENDSTOP_INVERTING = true; // set to true to invert the lo
  * MOVEMENT SETTINGS
  */
 
-#define HOMING_FEEDRATE {50*60, 50*60, 4*60, 0}  // set the homing speeds (mm/min)
+#define HOMING_FEEDRATE {6000, 6000, 4*60, 0}  // set the homing speeds (mm/min)
 
 // default settings
 
